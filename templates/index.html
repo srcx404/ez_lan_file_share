@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>局域网文件分享</title>
+  <style>
+    /* ...existing CSS from Flask template... */
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>局域网文件分享</h1>
+      <p>在同一局域网的设备上访问 <strong>{{ .LanURL }}</strong> 即可下载文件</p>
+    </header>
+    <div class="info-bar">
+      <div class="info-card">
+        <span>共享目录</span>
+        <strong>{{ .FolderName }}</strong>
+      </div>
+      <div class="info-card">
+        <span>访问地址</span>
+        <a href="{{ .LanURL }}" target="_blank" rel="noopener">{{ .LanURL }}</a>
+      </div>
+    </div>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+      <input type="file" name="file" required />
+      <button type="submit">上传文件</button>
+    </form>
+    <h2>可下载文件</h2>
+    <ul class="file-list">
+      {{ if .Files }}
+        {{ range .Files }}
+          <li class="file-item">
+            <span class="file-name">{{ . }}</span>
+            <a class="file-link" href="/files/{{ . }}">下载</a>
+          </li>
+        {{ end }}
+      {{ else }}
+        <li class="empty">暂无可用文件，先上传一个吧。</li>
+      {{ end }}
+    </ul>
+  </div>
+</body>
+</html>
